@@ -1,0 +1,24 @@
+{
+  "name": "pri.jzoom2",
+  "version": "1.0.0",
+  "description": "Pinch-to-zoom Class",
+  "main": "jZoom2.js",
+  "scripts": {
+    "build": "babel jZoom2.js -o jzoom2.es5.js --presets es2015",
+    "dev": "babel jZoom2.js -o jzoom2.es5.js -w --presets es2015",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/redos8/pri.jzoom2.git"
+  },
+  "author": "Yuri Petrov (theredos7@gmail.com)",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/redos8/pri.jzoom2/issues"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.23.0",
+    "babel-preset-es2015": "^6.22.0"
+  }
+}
