@@ -7,7 +7,7 @@ class jZoom2 {
 	constructor(el, options = {}) {
 		this.$el = $(el);
 		this.options = options;
-		this.options.maxZoom = 3;
+		this.options.maxZoom = 3.5;
 
 		this.$container = null;
 		this.$content = null;
@@ -234,7 +234,7 @@ class jZoom2 {
 			top: -(this.$container.offset().top - $(window).scrollTop()),
 			left: -this.$container.offset().left,
 		});
-		this.animate(1.2);
+		this.animate(1.5);
 	}
 
 	close() {
