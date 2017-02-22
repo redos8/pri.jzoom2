@@ -132,6 +132,7 @@ class jZoom2 {
 			.jzoom-container {
 				width: 100%;
 				position: relative;
+				z-index: 9999999;
 			}
 			.jzoom-content.animating {
 				transition: transform 0.3s ease-in-out;
