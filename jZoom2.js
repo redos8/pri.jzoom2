@@ -141,7 +141,7 @@ class jZoom2 {
         top: 50%;
         margin-left: -100px;
         margin-top: -100px;
-        z-index: 30;
+        z-index: 2;
         opacity: 1;
         pointer-events: none;
         transition: opacity 0.3s ease-in-out;
