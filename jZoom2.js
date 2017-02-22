@@ -22,7 +22,6 @@ class jZoom2 {
 	}
 
 	init() {
-		this.makeStyles();
 		this.wrapEl();
 		this.initZoom();
 		this.initIcon();
@@ -127,12 +126,11 @@ class jZoom2 {
 		this.$container.css('height', this.touchState.height);
 	}
 
-	makeStyles() {
+	static makeStyles() {
 		let styles = `
 			.jzoom-container {
 				width: 100%;
 				position: relative;
-				z-index: 9999999;
 			}
 			.jzoom-content.animating {
 				transition: transform 0.3s ease-in-out;
@@ -216,6 +214,7 @@ class jZoom2 {
       }
 			.jzoom-active {
 				touch-action: none;
+				z-index: 9999999;
 			}
 		`;
 		$('body').append(`<style>${styles}</style>`);
@@ -305,3 +304,5 @@ class jZoom2 {
 	}
 
 }
+
+jZoom2.makeStyles();
