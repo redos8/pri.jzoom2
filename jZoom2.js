@@ -102,7 +102,7 @@ class jZoom2 {
 
 	wrapEl() {
 		if(this.$el.data('zoom-img')) {
-			this.$el.html(`<img src="${this.$el.data('zoom-img')}" width="${this.$el.data('zoom-w')}" height="${this.$el.data('zoom-h')}" />`);
+			this.$el.html(`<img src="${this.$el.data('zoom-img')}" />`);
 		}
 
 		this.touchState.width = this.$el.width();
@@ -214,7 +214,7 @@ class jZoom2 {
       }
 			.jzoom-active {
 				touch-action: none;
-				z-index: 9999999;
+				z-index: 99999;
 			}
 		`;
 		$('body').append(`<style>${styles}</style>`);
