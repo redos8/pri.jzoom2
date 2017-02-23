@@ -52,7 +52,7 @@ class jZoom2 {
 		});
 
 		hm.on("pinchend", (ev) => {
-			if(this.touchSession.scale < 1) {
+			if(this.touchSession.scale < 1.3) {
 				this.close();
 			}
 		});
@@ -83,7 +83,7 @@ class jZoom2 {
 		this.touchSession = {};
 	}
 
-	zoom(scale, offsetX = (this.$wrapper.width() / 2 - this.touchState.width / 2), offsetY = (this.$wrapper.height() / 2 - this.touchState.height / 2)) {
+	zoom(scale, offsetX = (this.$wrapper.width() / 2 - this.touchState.width * this.touchSession.scale / 2), offsetY = (this.$wrapper.height() / 2 - this.touchState.height * this.touchSession.scale / 2)) {
 		this.touchSession.scale = this.touchState.scale * scale;
 		this.touchSession.x = this.touchState.x + (offsetX / this.touchSession.scale);
 		this.touchSession.y = this.touchState.y + (offsetY / this.touchSession.scale);
