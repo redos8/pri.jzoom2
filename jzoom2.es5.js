@@ -135,7 +135,7 @@ var jZoom2 = function () {
 			this.$wrapper = $('.jzoom-wrapper', this.$container);
 			this.$icon = $('.jzoom-icon', this.$container);
 
-			this.$container.css('height', this.touchState.height);
+			// this.$container.css('height', this.touchState.height);
 		}
 	}, {
 		key: 'open',

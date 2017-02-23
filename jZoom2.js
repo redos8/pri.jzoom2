@@ -125,7 +125,7 @@ class jZoom2 {
 		this.$wrapper = $('.jzoom-wrapper', this.$container);
 		this.$icon = $('.jzoom-icon', this.$container);
 
-		this.$container.css('height', this.touchState.height);
+		// this.$container.css('height', this.touchState.height);
 	}
 
 	static makeStyles() {
