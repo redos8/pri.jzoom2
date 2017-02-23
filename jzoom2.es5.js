@@ -97,8 +97,8 @@ var jZoom2 = function () {
 	}, {
 		key: 'zoom',
 		value: function zoom(scale) {
-			var offsetX = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.$wrapper.width() / 2 - this.touchState.width * this.touchSession.scale / 2;
-			var offsetY = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : this.$wrapper.height() / 2 - this.touchState.height * this.touchSession.scale / 2;
+			var offsetX = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.$wrapper.width() / 2 - this.touchState.width / 2;
+			var offsetY = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : this.$wrapper.height() / 2 - this.touchState.height / 2;
 
 			this.touchSession.scale = this.touchState.scale * scale;
 			this.touchSession.x = this.touchState.x + offsetX / this.touchSession.scale;
