@@ -39,6 +39,7 @@ var jZoom2 = function () {
 			this.initIcon();
 
 			$(window).on('scroll', this.checkAvailable.bind(this));
+			$(window).on('resize', this.close.bind(this));
 			this.$container.on('touchstart', function (e) {
 				if ((e.touches || e.originalEvent.touches).length == 2) {
 					e.preventDefault();
