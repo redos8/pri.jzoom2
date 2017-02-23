@@ -7,7 +7,7 @@ class jZoom2 {
 	constructor(el, options = {}) {
 		this.$el = $(el);
 		this.options = options;
-		this.options.maxZoom = 3.5;
+		this.options.maxZoom = 3;
 
 		this.$container = null;
 		this.$content = null;
@@ -58,6 +58,7 @@ class jZoom2 {
 		});
 
 		hm.on("pinch", (ev) => {
+      if(this.isActive) return;
 			ev.preventDefault();
 			if(ev.scale > 1.2) {
 				this.open(ev);

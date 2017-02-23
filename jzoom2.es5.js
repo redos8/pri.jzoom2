@@ -17,7 +17,7 @@ var jZoom2 = function () {
 
 		this.$el = $(el);
 		this.options = options;
-		this.options.maxZoom = 3.5;
+		this.options.maxZoom = 3;
 
 		this.$container = null;
 		this.$content = null;
@@ -69,6 +69,7 @@ var jZoom2 = function () {
 			});
 
 			hm.on("pinch", function (ev) {
+				if (_this.isActive) return;
 				ev.preventDefault();
 				if (ev.scale > 1.2) {
 					_this.open(ev);
