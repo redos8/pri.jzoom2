@@ -165,7 +165,7 @@ class jZoom2 {
 				width: 100%;
 				height: 100%;
 				overflow: hidden;
-				position:absolute;
+				position: relative;
 				left: 0;
 				top: 0;
 			}
@@ -209,7 +209,7 @@ class jZoom2 {
 				display: block;
 			}
 			.jzoom-active .jzoom-content > * {
-				box-shadow: 0 5px 30px #b8b8b8;
+				/*box-shadow: 0 5px 30px #b8b8b8;*/
 			}
 			.jzoom-container.jzoom-active .jzoom-icon, .jzoom-container.disabled .jzoom-icon {
         opacity: 0;
