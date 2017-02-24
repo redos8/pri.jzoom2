@@ -125,8 +125,6 @@ var jZoom2 = function () {
 				this.$el.html('<img src="' + this.$el.data('zoom-img') + '" />');
 			}
 
-			this.touchState.width = this.$el.width();
-			this.touchState.height = this.$el.height();
 			// save the original element
 			this.$originalEl = this.$el.clone();
 			var template = '\n\t\t\t<div class="jzoom-container">\n\t\t\t\t<div class="jzoom-wrapper">\n\t\t\t\t\t<div class="jzoom-content"></div>\n\t\t\t\t\t<div class="jzoom-background"></div>\n\t\t\t\t\t<div class="jzoom-icon"></div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t';
@@ -141,12 +139,16 @@ var jZoom2 = function () {
 		key: 'open',
 		value: function open(ev) {
 			if (this.isActive) return;
-			console.log("open");
+			console.log("open1");
 			this.isLearned = true;
 			this.isActive = true;
 			this.$container.addClass('disabled');
 			this.$container.addClass('jzoom-active');
 			this.hammmerManager.set({ touchAction: 'compute' });
+			var bounding = this.$el[0].getBoundingClientRect();
+			this.touchState.width = bounding.width;
+			this.touchState.height = bounding.height;
+
 			this.$wrapper.css({
 				height: window.innerHeight,
 				width: window.innerWidth,
