@@ -222,7 +222,6 @@ class jZoom2 {
 
 	open(ev) {
 		if(this.isActive) return;
-		console.log("open1");
 		this.isLearned = true;
 		this.isActive = true;
 		this.$container.addClass('disabled');
@@ -243,7 +242,6 @@ class jZoom2 {
 
 	close() {
 		if(!this.isActive) return;
-		console.log("close");
 		this.isActive = false;
 		this.touchState.scale = 1;
 		this.touchState.x = 0;

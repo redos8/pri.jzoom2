@@ -139,7 +139,6 @@ var jZoom2 = function () {
 		key: 'open',
 		value: function open(ev) {
 			if (this.isActive) return;
-			console.log("open1");
 			this.isLearned = true;
 			this.isActive = true;
 			this.$container.addClass('disabled');
@@ -161,7 +160,6 @@ var jZoom2 = function () {
 		key: 'close',
 		value: function close() {
 			if (!this.isActive) return;
-			console.log("close");
 			this.isActive = false;
 			this.touchState.scale = 1;
 			this.touchState.x = 0;
