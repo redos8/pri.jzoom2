@@ -221,8 +221,6 @@ var jZoom2 = function () {
 				position = this.$container.offset().top - $(window).scrollTop();
 			}
 
-			console.log("cjhec", position);
-
 			if (this.touchState.height > $(window).height()) {
 
 				this.disabled = !(position < 0);
