@@ -7,9 +7,10 @@ class jZoom2 {
 	constructor(el, options = {}) {
 		this.$el = $(el);
 		this.options = options;
-		this.options.maxZoom = 3;
+		this.options.maxZoom = this.options.maxZoom || 3;
+		this.options.iscrollObj = this.options.iscrollObj || null;
 
-		this.$container = null;
+    this.$container = null;
 		this.$content = null;
 		this.$originalEl = null;
 
@@ -18,15 +19,49 @@ class jZoom2 {
 		this.isLearned = false;
 		this.touchSession = {};
 		this.touchState = {scale: 1, x: 0, y: 0, width: 0, height: 0, lastTouchTime: 0};
-		this.init();
+		this._events = {beforeOpen: () => {}, open: () => {}, beforeClose: () => {}, close: () => {}};
+
+		if(!this.$el.length) {
+		  throw new Error("jZoom2: Can't find the element in dom.");
+    }
+
+		if(this.$el.length !== 1) {
+      this.$el.each((i, item) => {
+        new jZoom2(item, options);
+      });
+    }else{
+      this.init();
+    }
 	}
+
+  on(event, callback) {
+	  if(typeof this._events[event] == 'undefined') {
+	    throw new Error('jZoom2: Wrong event name.');
+    }
+	  if(typeof callback != 'function') {
+	    throw new Error('jZoom2: Callback is not a function.');
+    }
+    this._events[event] = callback;
+  }
+
+  off(event, callback) {
+	  if(typeof this._events[event] == 'undefined') {
+	    throw new Error('jZoom2: Wrong event name.');
+    }
+    this._events[event] = () => {};
+  }
 
 	init() {
 		this.wrapEl();
 		this.initZoom();
 		this.initIcon();
 
-		$(window).on('scroll', this.checkAvailable.bind(this));
+		if(this.options.iscrollObj) {
+      this.options.iscrollObj.on('scroll', this.checkAvailable.bind(this));
+    }else{
+      $(window).on('scroll', this.checkAvailable.bind(this));
+    }
+
 		$(window).on('resize', this.close.bind(this));
 		this.$container.on('touchstart', (e) => {
 			if((e.touches || e.originalEvent.touches).length == 2) {
@@ -130,6 +165,7 @@ class jZoom2 {
 		let styles = `
 			.jzoom-container {
 				width: 100%;
+				height: 100%;
 				position: relative;
 			}
 			.jzoom-content.animating {
@@ -139,7 +175,7 @@ class jZoom2 {
         position: absolute;
       	left: 50%;
         top: 50%;
-        margin-left: -100px;
+        margin-left: -70px;
         margin-top: -100px;
         z-index: 2;
         opacity: 1;
@@ -224,6 +260,7 @@ class jZoom2 {
 		if(this.isActive) return;
 		this.isLearned = true;
 		this.isActive = true;
+		this._events.beforeOpen();
 		this.$container.addClass('disabled');
 		this.$container.addClass('jzoom-active');
 		this.hammmerManager.set({touchAction: 'compute'});
@@ -238,6 +275,7 @@ class jZoom2 {
 			left: -this.$container.offset().left,
 		});
     this.animate(1.5);
+    this._events.open();
   }
 
 	close() {
@@ -246,19 +284,28 @@ class jZoom2 {
 		this.touchState.scale = 1;
 		this.touchState.x = 0;
 		this.touchState.y = 0;
+    this._events.beforeClose();
 		this.$container.removeClass('jzoom-active');
 		this.hammmerManager.set({touchAction: 'auto'});
 
 
 		this.$content.css({transform: `translate3d(0,0,0)`});
 		this.$wrapper.removeAttr('style');
+    this._events.close();
 	}
 
 
 	checkAvailable() {
-		let position = this.$container.offset().top - $(window).scrollTop();
+	  let position = 0;
+	  if(this.options.iscrollObj != null) {
+      position = this.$container.offset().top;
+    }else{
+      position = this.$container.offset().top - $(window).scrollTop();
+    }
 
-		if(this.touchState.height > $(window).height()) {
+    console.log("cjhec", position);
+
+    if(this.touchState.height > $(window).height()) {
 
 			this.disabled = !(position < 0);
 		}else{

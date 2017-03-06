@@ -17,7 +17,8 @@ var jZoom2 = function () {
 
 		this.$el = $(el);
 		this.options = options;
-		this.options.maxZoom = 3;
+		this.options.maxZoom = this.options.maxZoom || 3;
+		this.options.iscrollObj = this.options.iscrollObj || null;
 
 		this.$container = null;
 		this.$content = null;
@@ -28,17 +29,53 @@ var jZoom2 = function () {
 		this.isLearned = false;
 		this.touchSession = {};
 		this.touchState = { scale: 1, x: 0, y: 0, width: 0, height: 0, lastTouchTime: 0 };
-		this.init();
+		this._events = { beforeOpen: function beforeOpen() {}, open: function open() {}, beforeClose: function beforeClose() {}, close: function close() {} };
+
+		if (!this.$el.length) {
+			throw new Error("jZoom2: Can't find the element in dom.");
+		}
+
+		if (this.$el.length !== 1) {
+			this.$el.each(function (i, item) {
+				new jZoom2(item, options);
+			});
+		} else {
+			this.init();
+		}
 	}
 
 	_createClass(jZoom2, [{
+		key: 'on',
+		value: function on(event, callback) {
+			if (typeof this._events[event] == 'undefined') {
+				throw new Error('jZoom2: Wrong event name.');
+			}
+			if (typeof callback != 'function') {
+				throw new Error('jZoom2: Callback is not a function.');
+			}
+			this._events[event] = callback;
+		}
+	}, {
+		key: 'off',
+		value: function off(event, callback) {
+			if (typeof this._events[event] == 'undefined') {
+				throw new Error('jZoom2: Wrong event name.');
+			}
+			this._events[event] = function () {};
+		}
+	}, {
 		key: 'init',
 		value: function init() {
 			this.wrapEl();
 			this.initZoom();
 			this.initIcon();
 
-			$(window).on('scroll', this.checkAvailable.bind(this));
+			if (this.options.iscrollObj) {
+				this.options.iscrollObj.on('scroll', this.checkAvailable.bind(this));
+			} else {
+				$(window).on('scroll', this.checkAvailable.bind(this));
+			}
+
 			$(window).on('resize', this.close.bind(this));
 			this.$container.on('touchstart', function (e) {
 				if ((e.touches || e.originalEvent.touches).length == 2) {
@@ -141,6 +178,7 @@ var jZoom2 = function () {
 			if (this.isActive) return;
 			this.isLearned = true;
 			this.isActive = true;
+			this._events.beforeOpen();
 			this.$container.addClass('disabled');
 			this.$container.addClass('jzoom-active');
 			this.hammmerManager.set({ touchAction: 'compute' });
@@ -155,6 +193,7 @@ var jZoom2 = function () {
 				left: -this.$container.offset().left
 			});
 			this.animate(1.5);
+			this._events.open();
 		}
 	}, {
 		key: 'close',
@@ -164,16 +203,25 @@ var jZoom2 = function () {
 			this.touchState.scale = 1;
 			this.touchState.x = 0;
 			this.touchState.y = 0;
+			this._events.beforeClose();
 			this.$container.removeClass('jzoom-active');
 			this.hammmerManager.set({ touchAction: 'auto' });
 
 			this.$content.css({ transform: 'translate3d(0,0,0)' });
 			this.$wrapper.removeAttr('style');
+			this._events.close();
 		}
 	}, {
 		key: 'checkAvailable',
 		value: function checkAvailable() {
-			var position = this.$container.offset().top - $(window).scrollTop();
+			var position = 0;
+			if (this.options.iscrollObj != null) {
+				position = this.$container.offset().top;
+			} else {
+				position = this.$container.offset().top - $(window).scrollTop();
+			}
+
+			console.log("cjhec", position);
 
 			if (this.touchState.height > $(window).height()) {
 
@@ -225,7 +273,7 @@ var jZoom2 = function () {
 	}], [{
 		key: 'makeStyles',
 		value: function makeStyles() {
-			var styles = '\n\t\t\t.jzoom-container {\n\t\t\t\twidth: 100%;\n\t\t\t\tposition: relative;\n\t\t\t}\n\t\t\t.jzoom-content.animating {\n\t\t\t\ttransition: transform 0.3s ease-in-out;\n\t\t\t}\n\t\t\t.jzoom-icon {\n        position: absolute;\n      \tleft: 50%;\n        top: 50%;\n        margin-left: -100px;\n        margin-top: -100px;\n        z-index: 2;\n        opacity: 1;\n        pointer-events: none;\n        transition: opacity 0.3s ease-in-out;\n\t    }\n\t\t\t.jzoom-layout {\n\t\t\t\tposition: absolute;\n\t\t\t\tleft: 0;\n\t\t\t\ttop: 0;\n\t\t\t\tz-index: 2;\n\t\t\t}\n\t\t\t.jzoom-close {\n\t\t\t\tposition: absolute;\n\t\t\t\tright: 20px;\n\t\t\t\ttop: 20px;\n\t\t\t\tfont-size: 23px;\n\t\t\t\tdisplay: none;\n\t\t\t}\t\t\t\n\t\t\t.jzoom-wrapper {\n\t\t\t\twidth: 100%;\n\t\t\t\theight: 100%;\n\t\t\t\toverflow: hidden;\n\t\t\t\tposition: relative;\n\t\t\t\tleft: 0;\n\t\t\t\ttop: 0;\n\t\t\t}\n\t\t\t.jzoom-content {\n\t\t\t\tz-index: 2;\n\t\t\t\tposition:relative;\n\t\t\t}\n\t\t\t\n\t\t\t.jzoom-background {\n\t\t\t\twidth: 30px;\n\t\t\t\theight: 30px;\n\t\t\t\tbackground-color: rgba(180, 180, 180, 0.46);\n\t\t\t\topacity: 0;\n        transition: all 0.2s ease-in;\n        border-radius: 50%;\n        position:absolute;\n        top: 50%;\n        left: 50%;\n        margin-left: -15px;\n        margin-top: -15px;\n        z-index: 1;\n\t\t\t}\n\t\t\t.jzoom-background:after {\n\t\t\t\tcontent: \'\';\n\t\t\t\twidth: 20px;\n\t\t\t\theight: 20px;\n\t\t\t\tbackground-color: #f2f2f2;\n        transition: all 0.15s ease-in-out;\n        border-radius: 50%;\n        position:absolute;\n        top: 50%;\n        left: 50%;\n        margin-left: -10px;\n        margin-top: -10px;\n\t\t\t}\n\t\t\t.jzoom-active .jzoom-background {\n\t\t\t\ttransform: scale(80);\n\t\t\t\topacity: 1;\n\t\t\t}\n\t\t\t.jzoom-active .jzoom-close {\n\t\t\t\tdisplay: block;\n\t\t\t}\n\t\t\t.jzoom-active .jzoom-content > * {\n\t\t\t\t/*box-shadow: 0 5px 30px #b8b8b8;*/\n\t\t\t}\n\t\t\t.jzoom-container.jzoom-active .jzoom-icon, .jzoom-container.disabled .jzoom-icon {\n        opacity: 0;\n      }\n\t\t\t.jzoom-active {\n\t\t\t\ttouch-action: none;\n\t\t\t\tz-index: 99999;\n\t\t\t}\n\t\t';
+			var styles = '\n\t\t\t.jzoom-container {\n\t\t\t\twidth: 100%;\n\t\t\t\theight: 100%;\n\t\t\t\tposition: relative;\n\t\t\t}\n\t\t\t.jzoom-content.animating {\n\t\t\t\ttransition: transform 0.3s ease-in-out;\n\t\t\t}\n\t\t\t.jzoom-icon {\n        position: absolute;\n      \tleft: 50%;\n        top: 50%;\n        margin-left: -70px;\n        margin-top: -100px;\n        z-index: 2;\n        opacity: 1;\n        pointer-events: none;\n        transition: opacity 0.3s ease-in-out;\n\t    }\n\t\t\t.jzoom-layout {\n\t\t\t\tposition: absolute;\n\t\t\t\tleft: 0;\n\t\t\t\ttop: 0;\n\t\t\t\tz-index: 2;\n\t\t\t}\n\t\t\t.jzoom-close {\n\t\t\t\tposition: absolute;\n\t\t\t\tright: 20px;\n\t\t\t\ttop: 20px;\n\t\t\t\tfont-size: 23px;\n\t\t\t\tdisplay: none;\n\t\t\t}\t\t\t\n\t\t\t.jzoom-wrapper {\n\t\t\t\twidth: 100%;\n\t\t\t\theight: 100%;\n\t\t\t\toverflow: hidden;\n\t\t\t\tposition: relative;\n\t\t\t\tleft: 0;\n\t\t\t\ttop: 0;\n\t\t\t}\n\t\t\t.jzoom-content {\n\t\t\t\tz-index: 2;\n\t\t\t\tposition:relative;\n\t\t\t}\n\t\t\t\n\t\t\t.jzoom-background {\n\t\t\t\twidth: 30px;\n\t\t\t\theight: 30px;\n\t\t\t\tbackground-color: rgba(180, 180, 180, 0.46);\n\t\t\t\topacity: 0;\n        transition: all 0.2s ease-in;\n        border-radius: 50%;\n        position:absolute;\n        top: 50%;\n        left: 50%;\n        margin-left: -15px;\n        margin-top: -15px;\n        z-index: 1;\n\t\t\t}\n\t\t\t.jzoom-background:after {\n\t\t\t\tcontent: \'\';\n\t\t\t\twidth: 20px;\n\t\t\t\theight: 20px;\n\t\t\t\tbackground-color: #f2f2f2;\n        transition: all 0.15s ease-in-out;\n        border-radius: 50%;\n        position:absolute;\n        top: 50%;\n        left: 50%;\n        margin-left: -10px;\n        margin-top: -10px;\n\t\t\t}\n\t\t\t.jzoom-active .jzoom-background {\n\t\t\t\ttransform: scale(80);\n\t\t\t\topacity: 1;\n\t\t\t}\n\t\t\t.jzoom-active .jzoom-close {\n\t\t\t\tdisplay: block;\n\t\t\t}\n\t\t\t.jzoom-active .jzoom-content > * {\n\t\t\t\t/*box-shadow: 0 5px 30px #b8b8b8;*/\n\t\t\t}\n\t\t\t.jzoom-container.jzoom-active .jzoom-icon, .jzoom-container.disabled .jzoom-icon {\n        opacity: 0;\n      }\n\t\t\t.jzoom-active {\n\t\t\t\ttouch-action: none;\n\t\t\t\tz-index: 99999;\n\t\t\t}\n\t\t';
 			$('body').append('<style>' + styles + '</style>');
 		}
 	}]);
