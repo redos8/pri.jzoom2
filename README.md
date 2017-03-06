@@ -16,8 +16,8 @@ let zoomEl = new jZoom2('#el', {});
 
 Usage: `zoomEl.on(event, callback)`
 
-### *beforeOpen* -- calls before `open` process starts
-### *open* -- calls when method `open` done work
-### *beforeClose* -- calls before `close` process starts
-### *close* -- calls when method `close` done work
+* **beforeOpen**, calls before `open` process starts
+* **open**, calls when method `open` done work
+* **beforeClose**, calls before `close` process starts
+* **close**, calls when method `close` done work
 
