@@ -11,6 +11,17 @@ let zoomEl = new jZoom2('#el', {});
 
 ## Options
 
+### <small>options.</small>maxScale
+
+Maximum scale factor of manipulated element.
+
+Default: `3`
+
+### <small>options.</small>iscrollObj
+
+Push iScroll object through if you are using it. Basically it needs for right detection visible element or not right now. 
+
+Default: `null`.
 
 ## Events
 
