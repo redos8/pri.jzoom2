@@ -1,4 +1,25 @@
-#jZoom2
+#jZoom2 – Widget for pinching and zooming of any dom element in fullscreen.
+
+## Installation
+`jZoom2` needs <a href="https://github.com/hammerjs/hammer.js">Hammer.JS</a> and <a href="https://github.com/jquery/jquery">jQuery</a>.
+But you don't need to install it manually if you're using bower.
+
+**Via Bower**
+```
+bower install pri.jzoom
+```
+
+**Via NPM**
+```
+npm install pri.jzoom
+```
+
+**After download library place this in html.**
+```html
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/hammerjs/hammer.js"></script>
+```
+> Replace `bower_components` to `node_modules` if you're using *bower* instead of *npm*.
 
 ## Base arguments
 `jZoom2(element, options)`
