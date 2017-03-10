@@ -9,12 +9,12 @@ But you don't need to install it manually if you're using bower.
 
 **Via Bower**
 ```
-bower install pri.jzoom --save
+bower install pri.jzoom2 --save
 ```
 
 **Via NPM**
 ```
-npm install pri.jzoom --save
+npm install pri.jzoom2 --save
 ```
 
 **After download library place this in html.**
