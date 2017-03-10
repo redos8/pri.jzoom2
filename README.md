@@ -17,7 +17,7 @@ bower install pri.jzoom2 --save
 npm install pri.jzoom2 --save
 ```
 
-**After download library place this in html.**
+**After download the widget place this in html.**
 ```html
 <script src="bower_components/jquery/dist/jquery.js"></script>
 <script src="bower_components/hammerjs/hammer.js"></script>
