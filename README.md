@@ -1,6 +1,6 @@
 #jZoom2 
-[Yuriy Petrov](mailto:theredos7@gmail.com)
-<small>Widget for pinching and zooming of any DOM element.</small>
+Widget for pinching and zooming of any DOM element.
+Author: [Yuriy Petrov](mailto:theredos7@gmail.com)<br>
 
 
 ## Installation
