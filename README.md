@@ -28,7 +28,7 @@ Default: `null`.
 Usage: `zoomEl.on(event, callback)`
 
 * **beforeOpen**, calls before `open` process starts
-* **open**, calls when method `open` done work
+* **open**, calls when method `open` done its work
 * **beforeClose**, calls before `close` process starts
-* **close**, calls when method `close` done work
+* **close**, calls when method `close` done its work
 
