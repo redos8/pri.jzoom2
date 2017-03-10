@@ -1,4 +1,7 @@
-#jZoom2 <br><small>Widget for pinching and zooming of any DOM element.</small>
+#jZoom2 
+[Yuriy Petrov](mailto:theredos7@gmail.com)
+<small>Widget for pinching and zooming of any DOM element.</small>
+
 
 ## Installation
 `jZoom2` needs <a href="https://github.com/hammerjs/hammer.js">Hammer.JS</a> and <a href="https://github.com/jquery/jquery">jQuery</a>.
