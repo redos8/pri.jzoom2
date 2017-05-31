@@ -1,8 +1,8 @@
 {
   "name": "pri.jzoom2",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "Pinch-to-zoom Class",
-  "main": "jZoom2.js",
+  "main": "jzoom2.es5.js",
   "scripts": {
     "build": "babel jZoom2.js -o jzoom2.es5.js --presets es2015",
     "dev": "babel jZoom2.js -o jzoom2.es5.js -w --presets es2015",
